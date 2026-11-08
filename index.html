@@ -1,0 +1,333 @@
+<!doctype html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Helados Los Sabrosos</title>
+<style>
+/* CONFIGURACION GENERAL */
+* { margin: 0; padding: 0; box-sizing: border-box; }
+:root { color-scheme: light; }
+body { font-family: Arial, sans-serif; background-color: #fff5fa; color: #49243f; padding-bottom: 84px; }
+button, input, textarea { font: inherit; }
+:focus-visible { outline: 3px solid #ffd36b; outline-offset: 2px; }
+
+/* ENCABEZADO */
+.encabezado { background: linear-gradient(135deg, #74117d, #e83e91); color: white; text-align: center; padding: 40px 15px; }
+.encabezado h1 { font-size: 35px; margin-bottom: 15px; }
+.encabezado p { font-size: 20px; margin-bottom: 10px; }
+.encabezado h3 { color: #ffe28a; }
+.chips { display: flex; flex-wrap: wrap; justify-content: center; gap: 8px; margin-top: 18px; }
+.chip { background: rgba(255,255,255,.18); border: 1px solid rgba(255,255,255,.45); color: #fff; border-radius: 999px; padding: 6px 14px; font-size: 14px; }
+.chip b { color: #ffe28a; }
+
+/* MENU */
+.menu { background-color: #4e1559; padding: 15px; text-align: center; }
+.menu a { color: white; text-decoration: none; margin: 15px; font-weight: bold; }
+.menu a:hover { color: #ffd36b; }
+
+/* PRESENTACION */
+.presentacion { text-align: center; padding: 35px 15px; }
+.presentacion h2 { color: #8b278c; margin-bottom: 12px; }
+.presentacion p { font-size: 17px; }
+
+/* TITULO DEL CATALOGO */
+.titulo { text-align: center; color: #8b278c; margin: 20px 0 30px; }
+
+/* CONTENEDOR */
+.contenedor { width: 90%; max-width: 1200px; margin: auto; }
+
+/* CUADRICULA */
+.catalogo { display: grid; grid-template-columns: repeat(3, 1fr); gap: 25px; }
+
+/* TARJETAS */
+.producto { background-color: white; border-radius: 18px; overflow: hidden; text-align: center; padding-bottom: 20px; box-shadow: 0 4px 12px rgba(0,0,0,0.15); transition: 0.3s; min-width: 0; }
+.producto:hover { transform: translateY(-7px); }
+.producto.on { box-shadow: 0 0 0 3px #d82f86, 0 4px 12px rgba(0,0,0,0.15); }
+
+/* IMAGENES */
+.producto img { width: 100%; height: 250px; object-fit: cover; display: block; }
+
+/* NOMBRES */
+.producto h3 { color: #8b278c; margin: 15px 5px 10px; font-size: 21px; }
+.producto p { color: #705b6e; padding: 0 10px; margin-bottom: 12px; }
+.producto .precio { color: #d82f86; font-weight: bold; font-size: 22px; margin-bottom: 14px; padding: 0; font-variant-numeric: tabular-nums; }
+
+/* BOTONES */
+.producto button, .contacto button, .wa { background-color: #d82f86; color: white; border: none; padding: 12px 20px; border-radius: 25px; cursor: pointer; font-weight: bold; }
+.producto button:hover, .contacto button:hover, .wa:hover { background-color: #8b278c; }
+
+.step { display: inline-flex; align-items: center; border-radius: 25px; background: #f2d8ed; overflow: hidden; }
+.step output { min-width: 44px; text-align: center; font-weight: bold; font-size: 18px; color: #49243f; font-variant-numeric: tabular-nums; }
+.producto .step button { width: 44px; height: 44px; padding: 0; border-radius: 0; font-size: 22px; line-height: 1; }
+
+/* CONTACTO */
+.contacto { text-align: center; background-color: #f2d8ed; padding: 40px 15px; margin-top: 50px; scroll-margin-top: 8px; }
+.contacto h2 { color: #80217f; margin-bottom: 15px; }
+.contacto p { margin-bottom: 20px; }
+.pedido { max-width: 560px; margin: 0 auto; text-align: left; display: grid; gap: 16px; }
+.pedido .vacio { text-align: center; color: #705b6e; margin: 0; }
+.resumen { background: #fff; border-radius: 18px; padding: 16px; display: grid; gap: 10px; box-shadow: 0 4px 12px rgba(0,0,0,0.12); }
+.lines { list-style: none; display: grid; gap: 8px; }
+.lines li { display: grid; grid-template-columns: 1fr auto; gap: 12px; font-variant-numeric: tabular-nums; }
+.lines .sub { color: #705b6e; font-size: 14px; }
+.lines .fee { border-top: 2px dashed #f2d8ed; padding-top: 8px; color: #d82f86; font-weight: bold; }
+.total { display: flex; justify-content: space-between; align-items: baseline; background: #8b278c; color: #fff; border-radius: 14px; padding: 12px 16px; font-weight: bold; font-size: 22px; font-variant-numeric: tabular-nums; }
+.fields { display: grid; gap: 12px; }
+.pedido label { display: grid; gap: 5px; font-size: 14px; font-weight: bold; color: #80217f; }
+.pedido input[type="text"], .pedido textarea { border: 2px solid #e7bfdc; background: #fff; border-radius: 12px; padding: 11px 12px; font-weight: normal; color: #49243f; width: 100%; }
+.pedido input[type="text"]:focus, .pedido textarea:focus { border-color: #d82f86; outline: none; }
+.pedido textarea { resize: vertical; min-height: 64px; }
+.wa { display: flex; align-items: center; justify-content: center; gap: 10px; text-decoration: none; font-size: 18px; padding: 15px 18px; width: 100%; }
+.wa[aria-disabled="true"] { opacity: .45; pointer-events: none; }
+.wa svg { width: 24px; height: 24px; fill: currentColor; flex: none; }
+.row { display: flex; flex-wrap: wrap; gap: 10px; align-items: center; }
+.pedido .small { font-size: 13px; color: #705b6e; margin: 0; }
+.contacto .copy { background: #fff; color: #8b278c; border: 2px solid #8b278c; padding: 9px 16px; }
+.contacto .copy:hover { background: #8b278c; color: #fff; }
+
+/* PIE DE PAGINA */
+footer { background-color: #4e1559; color: white; text-align: center; padding: 22px; margin-top: 30px; }
+footer p { margin: 2px 0; }
+footer .note { margin-top: 10px; font-size: 12px; opacity: .8; }
+
+/* BARRA DE TOTAL */
+.bar { position: fixed; left: 0; right: 0; bottom: 0; background: #4e1559; color: #fff; border-top: 3px solid #ffd36b; padding: 10px 16px calc(10px + env(safe-area-inset-bottom, 0px)); z-index: 5; }
+.bar .in { max-width: 1200px; margin: 0 auto; display: flex; align-items: center; justify-content: space-between; gap: 12px; }
+.bar small { display: block; font-size: 12px; opacity: .85; }
+.bar b { font-size: 22px; color: #ffe28a; font-variant-numeric: tabular-nums; }
+.bar button { background: #d82f86; color: #fff; border: none; border-radius: 25px; padding: 12px 20px; font-weight: bold; cursor: pointer; white-space: nowrap; }
+.bar button:hover { background: #e83e91; }
+
+/* ADAPTACION PARA TABLET */
+@media (max-width: 850px) { .catalogo { grid-template-columns: repeat(2, 1fr); } }
+
+/* ADAPTACION PARA CELULAR */
+@media (max-width: 500px) {
+  .catalogo { grid-template-columns: repeat(2, 1fr); gap: 12px; }
+  .producto img { height: 155px; }
+  .producto h3 { font-size: 16px; }
+  .producto p { font-size: 13px; }
+  .producto .precio { font-size: 18px; }
+  .producto button { font-size: 12px; padding: 10px; }
+  .producto .step button { width: 38px; height: 38px; font-size: 20px; padding: 0; }
+  .step output { min-width: 34px; font-size: 16px; }
+  .encabezado h1 { font-size: 25px; }
+  .menu a { margin: 6px; font-size: 13px; }
+}
+@media (prefers-reduced-motion: reduce) { .producto { transition: none; } .producto:hover { transform: none; } }
+</style>
+</head>
+<body>
+
+<!-- ENCABEZADO -->
+<header class="encabezado">
+  <h1>🍦 HELADOS LOS SABROSOS 🍦</h1>
+  <p>¡El sabor que alegra tu día!</p>
+  <h3>Deliciosos, cremosos y preparados con amor</h3>
+  <div class="chips">
+    <span class="chip">Pedido por <b>WhatsApp</b></span>
+    <span class="chip">Comisión por pedido <b id="feeTop">RD$ 100</b></span>
+  </div>
+</header>
+
+<!-- MENU -->
+<nav class="menu" aria-label="Secciones">
+  <a href="#inicio" data-go="inicio">Inicio</a>
+  <a href="#catalogo" data-go="catalogo">Nuestros sabores</a>
+  <a href="#contacto" data-go="contacto">Pedidos</a>
+</nav>
+
+<!-- PRESENTACION -->
+<section class="presentacion" id="inicio">
+  <h2>¡Bienvenidos a nuestro catálogo!</h2>
+  <p>Descubre nuestros deliciosos helados. Tenemos <span id="nflavors">10</span> sabores para disfrutar.</p>
+</section>
+
+<!-- CATALOGO -->
+<main class="contenedor" id="catalogo">
+  <h2 class="titulo">NUESTROS 10 SABORES</h2>
+  <div class="catalogo" id="grid"></div>
+</main>
+
+<!-- CONTACTO -->
+<section class="contacto" id="contacto">
+  <h2>¡Haz tu pedido!</h2>
+  <p>Elige tu sabor favorito y contáctanos.</p>
+  <div class="pedido">
+    <p class="vacio" id="empty">Todavía no has elegido ningún helado. Toca "Pedir este sabor" en el que quieras.</p>
+    <div class="resumen" id="resumen" hidden>
+      <ul class="lines" id="lines"></ul>
+      <div class="total"><span>Total</span><span id="totalv"></span></div>
+    </div>
+    <div class="fields">
+      <label for="cname">Tu nombre
+        <input type="text" id="cname" autocomplete="name" placeholder="Nombre y apellido">
+      </label>
+      <label for="cnote">Dirección o punto de entrega
+        <textarea id="cnote" placeholder="Sector, calle, referencia. Si recoges tú, escríbelo aquí."></textarea>
+      </label>
+    </div>
+    <a class="wa" id="wa" href="#" target="_blank" rel="noopener" aria-disabled="true">
+      <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12.04 2a9.9 9.9 0 0 0-8.47 15.03L2 22l5.1-1.34A9.9 9.9 0 1 0 12.04 2Zm0 18.1a8.2 8.2 0 0 1-4.18-1.14l-.3-.18-3.03.8.81-2.95-.2-.31A8.2 8.2 0 1 1 12.04 20.1Zm4.5-6.14c-.25-.12-1.46-.72-1.69-.8-.23-.09-.39-.12-.56.12-.16.25-.64.8-.78.97-.14.16-.29.18-.54.06a6.7 6.7 0 0 1-3.34-2.92c-.25-.43.25-.4.72-1.33.08-.16.04-.3-.02-.42-.06-.12-.56-1.35-.77-1.85-.2-.48-.4-.42-.56-.43h-.48c-.16 0-.43.06-.65.3-.23.25-.87.85-.87 2.07s.89 2.4 1.01 2.57c.12.16 1.75 2.67 4.24 3.75 1.58.68 2.2.74 3 .62.49-.07 1.46-.6 1.67-1.17.2-.58.2-1.07.14-1.17-.06-.1-.23-.16-.48-.28Z"/></svg>
+      Pedir por WhatsApp
+    </a>
+    <div class="row">
+      <button class="copy" id="copy" type="button">Copiar pedido</button>
+      <p class="small">Si el botón no abre WhatsApp, copia el pedido y pégalo en el chat.</p>
+    </div>
+    <p class="small" id="numline" hidden>WhatsApp: <b id="numtxt"></b></p>
+  </div>
+</section>
+
+<!-- PIE DE PAGINA -->
+<footer>
+  <p>© 2026 Helados Los Sabrosos</p>
+  <p>¡Gracias por preferirnos!</p>
+  <p class="note">Los precios son por unidad. La comisión es un cargo fijo por pedido, sin importar cuántos helados lleves.</p>
+</footer>
+
+<div class="bar" role="region" aria-label="Resumen del pedido">
+  <div class="in">
+    <div><small id="barcount">Sin helados</small><b id="bartotal">RD$ 0</b></div>
+    <button type="button" id="gotoOrder">Ver pedido</button>
+  </div>
+</div>
+
+<script>
+/* ====== AJUSTES: cambia aquí precios, número y comisión ====== */
+var WHATSAPP = "18492817234";     // Ejemplo: "18492817234" (código de país + número, sin + ni espacios)
+var COMMISSION = 100;  // Comisión fija por pedido, en pesos (RD$)
+var FLAVORS = [
+  { id: "bizcocho",       name: "Helado de Bizcocho", price: 65, desc: "Dulce, cremoso y delicioso.",                  img: "imagenes/bizcocho.jpeg" },
+  { id: "batata-coco",    name: "Batata con Coco",    price: 65, desc: "Una combinación tradicional y cremosa.",       img: "imagenes/batata con coco.jpeg" },
+  { id: "pina-colada",    name: "Piña Colada",        price: 65, desc: "Un delicioso toque tropical.",                 img: "imagenes/piña colada.jpeg" },
+  { id: "fresa",          name: "Fresa",              price: 65, desc: "Dulce y refrescante sabor frutal.",            img: "imagenes/fresa.jpeg" },
+  { id: "choco-crema",    name: "Choco Crema",        price: 65, desc: "Una delicia para los amantes del chocolate.",  img: "imagenes/choco crema.jpeg" },
+  { id: "oreo",           name: "Oreo",               price: 65, desc: "Cremoso con sabor a galletas Oreo.",           img: "imagenes/oreo.jpeg" },
+  { id: "dulce-de-leche", name: "Dulce de Leche",     price: 75, desc: "Suave, dulce y delicioso.",                    img: "imagenes/dulce de leche.jpeg" },
+  { id: "guanabana",      name: "Guanábana",          price: 80, desc: "Un sabor tropical y refrescante.",             img: "imagenes/guanabana.jpeg" },
+  { id: "coco",           name: "Coco",               price: 65, desc: "Delicioso y cremoso sabor a coco.",            img: "imagenes/coco.jpeg" },
+  { id: "cafe",           name: "Café",               price: 65, desc: "Un sabor especial para los amantes del café.", img: "imagenes/cafe.jpeg" }
+];
+/* ============================================================= */
+
+var qty = {};
+var $ = function (id) { return document.getElementById(id); };
+function money(n) { return "RD$ " + n.toLocaleString("es-DO"); }
+
+function items() { return FLAVORS.filter(function (f) { return qty[f.id] > 0; }); }
+function subtotal() { return items().reduce(function (s, f) { return s + f.price * qty[f.id]; }, 0); }
+function count() { return items().reduce(function (s, f) { return s + qty[f.id]; }, 0); }
+
+function buildMessage() {
+  var its = items();
+  var lines = ["Hola, quiero hacer un pedido de Helados Los Sabrosos:", ""];
+  its.forEach(function (f) { lines.push("- " + qty[f.id] + " x " + f.name + " (" + money(f.price) + " c/u) = " + money(f.price * qty[f.id])); });
+  lines.push("");
+  lines.push("Subtotal: " + money(subtotal()));
+  lines.push("Comisión: " + money(COMMISSION));
+  lines.push("*Total: " + money(subtotal() + COMMISSION) + "*");
+  var n = $("cname").value.trim(), d = $("cnote").value.trim();
+  if (n || d) lines.push("");
+  if (n) lines.push("Nombre: " + n);
+  if (d) lines.push("Entrega: " + d);
+  return lines.join("\n");
+}
+
+function renderGrid() {
+  var g = $("grid");
+  g.innerHTML = "";
+  FLAVORS.forEach(function (f) {
+    var c = document.createElement("div");
+    c.className = "producto"; c.id = "c-" + f.id;
+    c.innerHTML =
+      '<img src="' + f.img + '" alt="' + f.name + '" loading="lazy">' +
+      '<h3>' + f.name + '</h3><p>' + f.desc + '</p><p class="precio">' + money(f.price) + '</p>' +
+      '<div id="ctl-' + f.id + '"></div>';
+    g.appendChild(c);
+    renderCtl(f);
+  });
+}
+
+function renderCtl(f) {
+  var el = $("ctl-" + f.id), q = qty[f.id] || 0;
+  $("c-" + f.id).classList.toggle("on", q > 0);
+  if (q === 0) {
+    el.innerHTML = '<button type="button" data-id="' + f.id + '" data-d="1">Pedir este sabor</button>';
+  } else {
+    el.innerHTML = '<div class="step"><button type="button" aria-label="Quitar uno de ' + f.name + '" data-id="' + f.id + '" data-d="-1">&minus;</button><output aria-live="polite">' + q + '</output><button type="button" aria-label="Agregar uno de ' + f.name + '" data-id="' + f.id + '" data-d="1">+</button></div>';
+  }
+}
+
+function renderOrder() {
+  var its = items(), has = its.length > 0, sub = subtotal();
+  $("empty").hidden = has;
+  $("resumen").hidden = !has;
+  var ul = $("lines"); ul.innerHTML = "";
+  its.forEach(function (f) {
+    var li = document.createElement("li");
+    li.innerHTML = '<span>' + qty[f.id] + ' &times; ' + f.name + ' <span class="sub">(' + money(f.price) + ')</span></span><span>' + money(f.price * qty[f.id]) + '</span>';
+    ul.appendChild(li);
+  });
+  if (has) {
+    var fee = document.createElement("li");
+    fee.className = "fee";
+    fee.innerHTML = '<span>Comisión por pedido</span><span>' + money(COMMISSION) + '</span>';
+    ul.appendChild(fee);
+  }
+  $("totalv").textContent = money(sub + COMMISSION);
+  $("barcount").textContent = has ? count() + (count() === 1 ? " helado" : " helados") + " + comisión" : "Sin helados";
+  $("bartotal").textContent = money(has ? sub + COMMISSION : 0);
+  updateLink();
+}
+
+function updateLink() {
+  var a = $("wa"), has = count() > 0;
+  var base = "https://wa.me/" + (WHATSAPP ? WHATSAPP : "");
+  a.href = has ? base + "?text=" + encodeURIComponent(buildMessage()) : "#";
+  a.setAttribute("aria-disabled", has ? "false" : "true");
+  $("copy").disabled = !has;
+}
+
+$("grid").addEventListener("click", function (e) {
+  var b = e.target.closest("button[data-id]");
+  if (!b) return;
+  var id = b.getAttribute("data-id"), d = parseInt(b.getAttribute("data-d"), 10);
+  qty[id] = Math.max(0, Math.min(99, (qty[id] || 0) + d));
+  var f = FLAVORS.filter(function (x) { return x.id === id; })[0];
+  renderCtl(f);
+  var nb = document.querySelector('#ctl-' + id + ' button[data-d="1"]');
+  if (nb && b.getAttribute("data-d") === "1") nb.focus();
+  renderOrder();
+});
+$("wa").addEventListener("click", function (e) { if (count() === 0) e.preventDefault(); });
+$("cname").addEventListener("input", updateLink);
+$("cnote").addEventListener("input", updateLink);
+$("gotoOrder").addEventListener("click", function () { $("contacto").scrollIntoView({ behavior: "smooth", block: "start" }); });
+document.querySelectorAll("nav.menu a").forEach(function (a) {
+  a.addEventListener("click", function (e) {
+    e.preventDefault();
+    var el = $(a.getAttribute("data-go"));
+    if (el) el.scrollIntoView({ behavior: "smooth", block: "start" });
+  });
+});
+$("copy").addEventListener("click", function () {
+  var msg = buildMessage(), btn = $("copy");
+  function done(t) { btn.textContent = t; setTimeout(function () { btn.textContent = "Copiar pedido"; }, 1800); }
+  function fallback() {
+    var ta = document.createElement("textarea"); ta.value = msg; document.body.appendChild(ta); ta.select();
+    var ok = false; try { ok = document.execCommand("copy"); } catch (x) {}
+    document.body.removeChild(ta); done(ok ? "Copiado" : "Selecciona y copia a mano");
+  }
+  try { navigator.clipboard.writeText(msg).then(function () { done("Copiado"); }, fallback); }
+  catch (err) { fallback(); }
+});
+
+$("feeTop").textContent = money(COMMISSION);
+$("nflavors").textContent = FLAVORS.length;
+if (WHATSAPP) { $("numline").hidden = false; $("numtxt").textContent = "+" + WHATSAPP; }
+renderGrid(); renderOrder();
+</script>
+</body>
+</html>
